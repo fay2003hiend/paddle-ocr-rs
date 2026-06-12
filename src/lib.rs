@@ -165,7 +165,13 @@ mod tests {
             "./models/ch_PP-OCRv5_mobile_det.onnx",
             "./models/ch_ppocr_mobile_v2.0_cls_infer.onnx",
             "./models/ch_PP-OCRv5_rec_mobile_infer.onnx",
-            |builder| builder.with_inter_threads(2)?.with_intra_threads(2),
+            |builder| 
+            if let Ok(b1) = builder.with_inter_threads(2) &&
+                 let Ok(b2) = b1.with_intra_threads(2) {
+                 Ok(b2)
+            } else {
+                Err(ort::Error::new("no"))
+            }
         )?;
 
         println!("===test_from_custom===");

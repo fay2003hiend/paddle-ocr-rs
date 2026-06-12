@@ -10,4 +10,6 @@ pub enum OcrError {
     ImageError(#[from] image::ImageError),
     #[error("Image error")]
     SessionNotInitialized,
+    #[error(transparent)]
+    OrtBuilder(#[from] ort::Error<ort::session::builder::SessionBuilder>),
 }
